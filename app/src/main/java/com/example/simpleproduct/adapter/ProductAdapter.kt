@@ -10,6 +10,7 @@ import com.example.simpleproduct.databinding.ItemProductBinding
 import com.example.simpleproduct.model.ProductResponse
 import com.example.simpleproduct.utils.inflate
 
+
 /**
  *adapter class to display the list of products
  * */
@@ -32,6 +33,7 @@ class ProductAdapter(val onItemClick: (ProductResponse) -> Unit) : BaseAdapter<P
         }
 
     }
+
     // method for filtering our recyclerview items.
     @SuppressLint("NotifyDataSetChanged")
     fun filterList(filterlist: ArrayList<ProductResponse>) {

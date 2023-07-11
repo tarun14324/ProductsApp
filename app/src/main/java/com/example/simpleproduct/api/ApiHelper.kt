@@ -1,6 +1,8 @@
 package com.example.simpleproduct.api
 
+import com.example.simpleproduct.model.AddProductResponse
 import com.example.simpleproduct.model.Products
+import okhttp3.MultipartBody
 import retrofit2.Response
 
 /**
@@ -11,7 +13,12 @@ interface ApiHelper {
     suspend fun getProducts(): Response<Products>
 
     // add product to api
-   // suspend fun addProduct(productName: String,productType: String, productPrice: String, productTax:String):Call<AddProductResponse>
+    suspend fun addProduct(
+        productName: String,
+        productType: String,
+        productPrice: String,
+        productTax: String,
+        image: String
+    ):Response<AddProductResponse>
 
-    //suspend fun sample(map:Map<String?, RequestBody?>?,file: Part):Call<AddProductResponse?>?
 }

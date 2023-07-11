@@ -31,4 +31,3 @@ class ImageAdaptor(private val list: List<*>, val itemPosition: (Int) -> Unit) :
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 }
-

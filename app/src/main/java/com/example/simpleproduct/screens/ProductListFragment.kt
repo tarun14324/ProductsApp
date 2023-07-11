@@ -1,6 +1,7 @@
 package com.example.simpleproduct.screens
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -16,6 +17,7 @@ import com.example.simpleproduct.model.ProductResponse
 import com.example.simpleproduct.utils.InternetHelper
 import com.example.simpleproduct.utils.Status
 import com.example.simpleproduct.utils.hideKeyboard
+import com.example.simpleproduct.utils.showToast
 import com.example.simpleproduct.view_model.ProductListViewModel
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -43,6 +45,7 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
                             filterItems = data
                             submitData()
                         }
+                        Log.e("TAG", "initObservers: ${it.data}", )
                         dataBinding.rvProduct.visibility = View.VISIBLE
                     }
 
@@ -56,7 +59,7 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
                     Status.ERROR -> {
                         //Handle Error
                         dataBinding.progressBar.visibility = View.GONE
-                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                        it.message?.let { it1 -> activity?.showToast(it1) }
                     }
                 }
             }

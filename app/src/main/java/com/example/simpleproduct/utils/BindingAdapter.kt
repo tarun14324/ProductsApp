@@ -13,7 +13,7 @@ fun showImage(imgView: ImageView, url: String?) {
         Glide.with(imgView.context)
             .load(url)
             .placeholder(R.drawable.img)
-            .error(R.drawable.img)
+            .error(R.drawable.img_1)
             .into(imgView)
     } else {
         Glide.with(imgView.context)
@@ -22,7 +22,7 @@ fun showImage(imgView: ImageView, url: String?) {
             .error(R.drawable.img)
             .into(imgView)
     }
-}
+    }
 
 
 @BindingAdapter("isVisible")

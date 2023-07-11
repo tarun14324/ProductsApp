@@ -20,6 +20,24 @@
         android:background="@drawable/bg"
         android:padding="@dimen/padding_normal"
         tools:context=".screens.AddProductFragment">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            style="@style/match_wrap"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@null">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:layout_width="match_parent"
+                android:id="@+id/toolbar"
+                app:title="@string/add_product"
+                android:textSize="@dimen/tv_gen_18"
+                android:textAlignment="center"
+                app:navigationIcon="@drawable/ic_back"
+                android:layout_height="?attr/actionBarSize">
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvProductName"
@@ -33,7 +51,7 @@
             android:textSize="@dimen/tv_gen_12"
             android:textStyle="normal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/appbar" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/productNameTextInputLayout"
@@ -56,13 +74,13 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/productNameEditText"
                 style="@style/match_wrap"
-                android:backgroundTint="@{viewModel.errorStringStateFlow.toLowerCase().contains(`name`) ? @color/beach_vibes : @color/dessert_ash_40}"
+                android:backgroundTint="@{viewModel.errorStringStateFlow.toLowerCase().contains(`name`) ? @color/home_red : @color/dessert_ash_40}"
                 android:fontFamily="@font/rubik_bold"
                 android:inputType="text"
                 android:paddingVertical="@dimen/dimen_16"
                 android:text="@={viewModel.productNameFlow}"
                 android:textAppearance="?textAppearanceBody2"
-                android:textColor="@{viewModel.errorStringStateFlow.toLowerCase().contains(`name`) ? @color/home_red : @color/black}"
+                android:textColor="@{viewModel.errorStringStateFlow.toLowerCase().contains(`name`) ? @color/white : @color/black}"
                 android:textCursorDrawable="@null"
                 app:placeholderText="@string/product_name" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -115,7 +133,6 @@
             android:fontFamily="@font/rubik_medium"
             android:gravity="center_horizontal"
             android:text="@string/product_price"
-            android:textColor="@color/black"
             android:textSize="@dimen/tv_gen_12"
             android:textStyle="normal"
             app:layout_constraintStart_toStartOf="parent"
@@ -142,13 +159,13 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/productPriceEditText"
                 style="@style/match_wrap"
-                android:backgroundTint="@{viewModel.errorStringStateFlow.toLowerCase().contains(`price`) ? @color/beach_vibes : @color/dessert_ash_40}"
+                android:backgroundTint="@{viewModel.errorStringStateFlow.toLowerCase().contains(`price`) ? @color/home_red : @color/dessert_ash_40}"
                 android:fontFamily="@font/rubik_bold"
                 android:inputType="text"
                 android:paddingVertical="@dimen/dimen_16"
                 android:text="@={viewModel.productPriceFlow}"
                 android:textAppearance="?textAppearanceBody2"
-                android:textColor="@{viewModel.errorStringStateFlow.toLowerCase().contains(`price`) ? @color/home_red : @color/black}"
+                android:textColor="@{viewModel.errorStringStateFlow.toLowerCase().contains(`price`) ? @color/white : @color/black}"
                 android:textCursorDrawable="@null"
                 app:placeholderText="@string/product_price" />
 
@@ -190,13 +207,13 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/productTaxEditText"
                 style="@style/match_wrap"
-                android:backgroundTint="@{viewModel.errorStringStateFlow.toLowerCase().contains(`tax`) ? @color/beach_vibes : @color/dessert_ash_40}"
+                android:backgroundTint="@{viewModel.errorStringStateFlow.toLowerCase().contains(`tax`) ? @color/home_red : @color/dessert_ash_40}"
                 android:fontFamily="@font/rubik_bold"
                 android:inputType="text"
                 android:paddingVertical="@dimen/dimen_16"
                 android:text="@={viewModel.productTaxFlow}"
                 android:textAppearance="?textAppearanceBody2"
-                android:textColor="@{viewModel.errorStringStateFlow.toLowerCase().contains(`tax`) ? @color/home_red : @color/black}"
+                android:textColor="@{viewModel.errorStringStateFlow.toLowerCase().contains(`tax`) ? @color/white : @color/black}"
                 android:textCursorDrawable="@null"
                 app:placeholderText="@string/product_tax" />
 
@@ -262,6 +279,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recyclerView" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/wrap_wrap"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

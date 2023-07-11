@@ -1,6 +1,8 @@
 package com.example.simpleproduct.screens
 
+import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -10,6 +12,7 @@ import com.example.simpleproduct.adapter.ImageAdaptor
 import com.example.simpleproduct.base.BaseFragment
 import com.example.simpleproduct.databinding.FragmentAddProductBinding
 import com.example.simpleproduct.utils.InternetHelper
+import com.example.simpleproduct.utils.Status
 import com.example.simpleproduct.utils.collect
 import com.example.simpleproduct.utils.showToast
 import com.example.simpleproduct.view_model.AddProductViewModel
@@ -32,8 +35,8 @@ class AddProductFragment : BaseFragment<FragmentAddProductBinding>() {
     private val photoPickerLauncher =
         registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
             if (uris != null) {
-                viewModel.imageUri.value=uris
                 val adapter = ImageAdaptor(uris) {
+                    viewModel.imageUri.value= uris.getOrNull(0)?.path.toString()
                     imageCount = uris.count()
                     imagePosition = it
                     dataBinding.itemCount = uris.size
@@ -54,13 +57,21 @@ class AddProductFragment : BaseFragment<FragmentAddProductBinding>() {
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.errorMessage.collect {
-               activity?.showToast(it)
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.moveToShowProductEvent.collect {
-               findNavController().popBackStack()
+            viewModel.addProducts.observe(viewLifecycleOwner) {
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        it.message?.let { it1 -> activity?.showToast(it1) }
+                        findNavController().popBackStack()
+                    }
+
+                    Status.LOADING -> {
+                        dataBinding.progressBar.visibility=View.VISIBLE
+                    }
+
+                    Status.ERROR -> {
+                        it.message?.let { it1 -> activity?.showToast(it1) }
+                    }
+                }
             }
         }
     }
@@ -84,6 +95,9 @@ class AddProductFragment : BaseFragment<FragmentAddProductBinding>() {
             if (imageCount > imagePosition - 1) {
                 dataBinding.recyclerView.scrollToPosition(imagePosition + 1)
             }
+        }
+        dataBinding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
         dataBinding.previousButton.setOnClickListener {
             if (imagePosition > 1) {

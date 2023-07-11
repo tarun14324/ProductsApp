@@ -2,14 +2,18 @@ package com.example.simpleproduct.view_model
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.simpleproduct.api.ApiService
 import com.example.simpleproduct.model.AddProductResponse
 import com.example.simpleproduct.model.ProductDetails
+import com.example.simpleproduct.model.ProductResponse
 import com.example.simpleproduct.repository.MainRepository
 import com.example.simpleproduct.utils.ConflatedChannel
 import com.example.simpleproduct.utils.InternetHelper
+import com.example.simpleproduct.utils.Resource
 import com.example.simpleproduct.utils.sendValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -21,11 +25,14 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
+import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
+import java.io.IOException
 import java.net.URI
 
 
@@ -41,13 +48,14 @@ class AddProductViewModel(
     val ProductPriceFlow = MutableStateFlow("")
     val ProductTaxFlow = MutableStateFlow("")
     val errorStringStateFlow = MutableStateFlow("")
-    val errorMessage = MutableStateFlow("")
-    val imageUri = MutableStateFlow<List<Uri>>(emptyList())
+    val imageUri = MutableStateFlow<String>("")
+
+    private val _addProducts = MutableLiveData<Resource<ArrayList<AddProductResponse>>>()
+    val addProducts: LiveData<Resource<ArrayList<AddProductResponse>>>
+        get() = _addProducts
 
     // conflated channels used for event handling
     val moveToSelectImageEvent = ConflatedChannel<Unit>()
-
-    val moveToShowProductEvent = ConflatedChannel<Unit>()
 
 
     /**
@@ -61,9 +69,10 @@ class AddProductViewModel(
             val tax = ProductTaxFlow.value.trim()
             val data = validateField(name, price, type, tax)
             if (data == null) {
-                sample()
+                updateProductData()
             } else {
                 errorStringStateFlow.value = data
+                _addProducts.postValue(Resource.error(msg = data,null))
             }
         }
     }
@@ -87,7 +96,7 @@ class AddProductViewModel(
             return "Product Price Required"
         }
         if (type.isEmpty()) {
-            return "Product Type Required"
+            return "Select Product Type"
         }
         if (tax.isEmpty()) {
             return "Product Tax Required"
@@ -97,66 +106,35 @@ class AddProductViewModel(
     }
 
     private fun updateProductData() {
-        GlobalScope.launch(Dispatchers.Main) {
-//            try {
-//                val response = mainRepository.addProducts(
-//                    productType = ProductTypeFlow.value,
-//                    productName = ProductNameFlow.value,
-//                    productPrice = ProductPriceFlow.value,
-//                    productTax = ProductTaxFlow.value
-//                )
-//
-//                if (response.) {
-//                    moveToShowProductEvent.sendValue(Unit)
-//                } else {
-//                    Resource.error(response.message, null)
-//                }
-//            } catch (e: IOException) {
-//                Resource.error(
-//                    "Oops! couldn't reach server, check your internet connection.", null
-//                )
-//            } catch (e: HttpException) {
-//                Resource.error(
-//                    "Oops! something went wrong. Please try again", null
-//                )
-//            }
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+
+                val response = mainRepository.addProducts(
+                    productType = ProductTypeFlow.value,
+                    productName = ProductNameFlow.value,
+                    productPrice = ProductPriceFlow.value,
+                    productTax = ProductTaxFlow.value,
+                    image=imageUri.value
+                )
+
+                if (response.isSuccessful) {
+                    _addProducts.postValue(Resource.success(null))
+                } else {
+                    _addProducts.postValue(Resource.error(response.message(), null))
+                }
+            } catch (e: IOException) {
+                _addProducts.postValue(Resource.error(
+                    "Oops! couldn't reach server, check your internet connection.", null
+                )
+                )
+            } catch (e: HttpException) {
+                _addProducts.postValue(Resource.error(
+                    "Oops! something went wrong. Please try again", null
+                )
+                )
+            }
 
         }
-
-    }
-
-    /**
-     * add product to the api
-     * */
-    private fun sample(){
-        val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl("https://app.getswipe.in/api/public/")
-            .client(OkHttpClient())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val apiService: ApiService = retrofit.create(ApiService::class.java)
-
-        val param1: RequestBody = ProductNameFlow.value.toRequestBody("text/plain".toMediaTypeOrNull())
-        val param2: RequestBody = ProductTypeFlow.value.toRequestBody("text/plain".toMediaTypeOrNull())
-        val param3: RequestBody = ProductPriceFlow.value.toRequestBody("text/plain".toMediaTypeOrNull())
-        val param4: RequestBody = ProductTaxFlow.value.toRequestBody("text/plain".toMediaTypeOrNull())
-       // val filePart: MultipartBody.Part = createFilePart(File(pa),"sample")
-
-        val call = apiService.uploadFormData(param1, param2,param3,param4)
-        call.enqueue(object : retrofit2.Callback<AddProductResponse?> {
-            override fun onResponse(
-                call: retrofit2.Call<AddProductResponse?>,
-                response: retrofit2.Response<AddProductResponse?>
-            ) {
-                val responseBody: ProductDetails? = response.body()?.product_details
-                Log.e("TAG", "onResponse:${response.isSuccessful}+${response.body()} ", )
-            }
-
-            override fun onFailure(call: retrofit2.Call<AddProductResponse?>, t: Throwable) {
-                Log.e("TAG", "onFailure:${t.localizedMessage} ", )
-            }
-        })
 
     }
 

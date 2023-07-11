@@ -1,6 +1,7 @@
 package com.example.simpleproduct.repository
 
 import com.example.simpleproduct.api.ApiHelperImpl
+import okhttp3.MultipartBody
 
 
 /**
@@ -9,9 +10,9 @@ import com.example.simpleproduct.api.ApiHelperImpl
 class MainRepository (private val apiHelper: ApiHelperImpl) {
 
     suspend fun getProducts() =  apiHelper.getProducts()
-//    suspend fun addProducts(productName: String,productType: String, productPrice: String, productTax:String) =  apiHelper.addProduct(
-//        productName,productType,productPrice,productTax
-//    )
+    suspend fun addProducts(productName: String,productType: String, productPrice: String, productTax:String,image: String) =  apiHelper.addProduct(
+        productName,productType,productPrice,productTax, image
+    )
 
 }
 
