@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="green">#FF42995C</color>
+    <color name="grey">#FFC0BEBE</color>
+    <color name="purple">#8692f7</color>
+    <color name="home_red">#fa565a</color>
+    <color name="beach_vibes">#fbeae5</color>
+    <color name="dessert_ash_40">#efefef</color>
+
+
+</resources>

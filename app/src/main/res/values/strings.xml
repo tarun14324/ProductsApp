@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Simple Product</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="add_product">Add New Product</string>
+    <string name="previous">Previous</string>
+    <string name="product_image">Product Image</string>
+    <string name="price">Price</string>
+    <string name="type">Type</string>
+    <string name="amount">\u20A8 15.00</string>
+    <string name="lotion">Lotion</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_type">Product Type</string>
+    <string name="product_price">Product Price</string>
+    <string name="product_tax">Product Tax</string>
+    <string name="tax">Tax</string>
+    <string name="select_multiple_images">Select Multiple Images</string>
+    <string name="choose_product_type">Choose Product type</string>
+    <string name="select">Select</string>
+
+
+    <string-array name="product">
+        <item>Service</item>
+        <item>Product</item>
+        <item>Product Type</item>
+        <item>Type 1</item>
+        <item>Type 2</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.simpleproduct.view_model.AddProductViewModel" />
+
+        <variable
+            name="itemCount"
+            type="int" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/match_match"
+        android:background="@drawable/bg"
+        android:padding="@dimen/padding_normal"
+        tools:context=".screens.AddProductFragment">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvProductName"
+            style="@style/wrap_wrap"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:fontFamily="@font/rubik_medium"
+            android:gravity="center_horizontal"
+            android:text="@string/product_name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/tv_gen_12"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/productNameTextInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_large"
+            app:boxCornerRadiusBottomEnd="@dimen/dimen_10"
+            app:boxCornerRadiusBottomStart="@dimen/dimen_10"
+            app:boxCornerRadiusTopEnd="@dimen/dimen_10"
+            app:boxCornerRadiusTopStart="@dimen/dimen_10"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvProductName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productNameEditText"
+                style="@style/match_wrap"
+                android:backgroundTint="@{viewModel.errorStringStateFlow.toLowerCase().contains(`name`) ? @color/beach_vibes : @color/dessert_ash_40}"
+                android:fontFamily="@font/rubik_bold"
+                android:inputType="text"
+                android:paddingVertical="@dimen/dimen_16"
+                android:text="@={viewModel.productNameFlow}"
+                android:textAppearance="?textAppearanceBody2"
+                android:textColor="@{viewModel.errorStringStateFlow.toLowerCase().contains(`name`) ? @color/home_red : @color/black}"
+                android:textCursorDrawable="@null"
+                app:placeholderText="@string/product_name" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvProductType"
+            style="@style/wrap_wrap"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:fontFamily="@font/rubik_medium"
+            android:gravity="center_horizontal"
+            android:text="@string/product_type"
+            android:textColor="@color/black"
+            android:textSize="@dimen/tv_gen_12"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/productNameTextInputLayout" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/productTypeTextInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:background="@color/dessert_ash_40"
+            android:layout_marginEnd="@dimen/margin_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvProductType">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/colorSurface"
+                android:backgroundTint="?attr/colorSurface"
+                android:text="@={viewModel.productTypeFlow}"
+                android:layout_weight="1"
+                android:inputType="none"
+                tools:ignore="LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvProductPrice"
+            style="@style/wrap_wrap"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:fontFamily="@font/rubik_medium"
+            android:gravity="center_horizontal"
+            android:text="@string/product_price"
+            android:textColor="@color/black"
+            android:textSize="@dimen/tv_gen_12"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/productTypeTextInputLayout" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/productPriceTextInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_large"
+            app:boxCornerRadiusBottomEnd="@dimen/dimen_10"
+            app:boxCornerRadiusBottomStart="@dimen/dimen_10"
+            app:boxCornerRadiusTopEnd="@dimen/dimen_10"
+            app:boxCornerRadiusTopStart="@dimen/dimen_10"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvProductPrice">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productPriceEditText"
+                style="@style/match_wrap"
+                android:backgroundTint="@{viewModel.errorStringStateFlow.toLowerCase().contains(`price`) ? @color/beach_vibes : @color/dessert_ash_40}"
+                android:fontFamily="@font/rubik_bold"
+                android:inputType="text"
+                android:paddingVertical="@dimen/dimen_16"
+                android:text="@={viewModel.productPriceFlow}"
+                android:textAppearance="?textAppearanceBody2"
+                android:textColor="@{viewModel.errorStringStateFlow.toLowerCase().contains(`price`) ? @color/home_red : @color/black}"
+                android:textCursorDrawable="@null"
+                app:placeholderText="@string/product_price" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvProductTax"
+            style="@style/wrap_wrap"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:fontFamily="@font/rubik_medium"
+            android:gravity="center_horizontal"
+            android:text="@string/product_tax"
+            android:textColor="@color/black"
+            android:textSize="@dimen/tv_gen_12"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/productPriceTextInputLayout" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/productTaxTextInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_large"
+            app:boxCornerRadiusBottomEnd="@dimen/dimen_10"
+            app:boxCornerRadiusBottomStart="@dimen/dimen_10"
+            app:boxCornerRadiusTopEnd="@dimen/dimen_10"
+            app:boxCornerRadiusTopStart="@dimen/dimen_10"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvProductTax">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/productTaxEditText"
+                style="@style/match_wrap"
+                android:backgroundTint="@{viewModel.errorStringStateFlow.toLowerCase().contains(`tax`) ? @color/beach_vibes : @color/dessert_ash_40}"
+                android:fontFamily="@font/rubik_bold"
+                android:inputType="text"
+                android:paddingVertical="@dimen/dimen_16"
+                android:text="@={viewModel.productTaxFlow}"
+                android:textAppearance="?textAppearanceBody2"
+                android:textColor="@{viewModel.errorStringStateFlow.toLowerCase().contains(`tax`) ? @color/home_red : @color/black}"
+                android:textCursorDrawable="@null"
+                app:placeholderText="@string/product_tax" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/selectButton"
+            style="@style/match_wrap"
+            android:layout_marginHorizontal="@dimen/margin_large"
+            android:layout_marginTop="@dimen/dimen_20"
+            android:onClick="@{() -> viewModel.selectImageButtonClick()}"
+            android:text="@string/select_multiple_images"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/productTaxTextInputLayout" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="@dimen/margin_small"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="@id/selectButton"
+            app:layout_constraintStart_toStartOf="@id/selectButton"
+            app:layout_constraintTop_toBottomOf="@+id/selectButton"
+            tools:listitem="@layout/item_recycler_view_image" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/previousButton"
+            android:layout_width="@dimen/dimen_32"
+            android:layout_height="@dimen/dimen_32"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:background="@drawable/ic_back"
+            android:visibility="invisible"
+            app:isVisible="@{itemCount>1}"
+            app:layout_constraintBottom_toBottomOf="@id/recyclerView"
+            app:layout_constraintEnd_toStartOf="@id/recyclerView"
+            app:layout_constraintTop_toTopOf="@id/recyclerView" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/nextButton"
+            android:layout_width="@dimen/dimen_32"
+            android:layout_height="@dimen/dimen_32"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:background="@drawable/ic_forward"
+            android:visibility="invisible"
+            app:isVisible="@{itemCount>1}"
+            app:layout_constraintBottom_toBottomOf="@id/recyclerView"
+            app:layout_constraintStart_toEndOf="@id/recyclerView"
+            app:layout_constraintTop_toTopOf="@id/recyclerView" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/addButton"
+            style="@style/match_wrap"
+            android:layout_marginHorizontal="@dimen/margin_large"
+            android:layout_marginVertical="@dimen/margin_normal"
+            android:background="@drawable/rounded_corner_button"
+            android:backgroundTint="@color/green"
+            android:onClick="@{() -> viewModel.submitButtonClick()}"
+            android:text="@string/add_product"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recyclerView" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
